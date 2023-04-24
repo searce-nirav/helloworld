@@ -12,13 +12,21 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: /bin/sh
   args:
-  - -c
+  - '-c'
   - |
-    gcloud run deploy test \
-    --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
-    --region us-central1 \
-    --allow-unauthenticated \
-    - 'if [ $BRANCH_NAME == 'master' ]; then --no-cpu-throttling ; fi'
+    if [[ "$BRANCH_NAME" == "master" ]]
+    then
+      gcloud run deploy test \
+      --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
+      --region us-central1 \
+      --allow-unauthenticated \
+      --no-cpu-throttling
+    elif [[ "$BRANCH_NAME" == "test" ]]
+      gcloud run deploy test \
+      --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
+      --region us-central1 \
+      --allow-unauthenticated
+    fi
 
 options:
   logging: CLOUD_LOGGING_ONLY
