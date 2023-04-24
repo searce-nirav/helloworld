@@ -20,7 +20,8 @@ steps:
       --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
       --region us-central1 \
       --allow-unauthenticated \
-      --no-cpu-throttling
+      --no-cpu-throttling \
+      --cpu-boost
     elif [[ "$BRANCH_NAME" == "test" ]]
     then
       gcloud run deploy ${PROJECT_ID}-test \
