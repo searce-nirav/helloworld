@@ -8,8 +8,8 @@ RUN \
 
 RUN useradd --create-home helloworld
 ADD bin /home/helloworld/bin
-ADD target/helloworld.war /home/helloworld/bin/helloworld.war
-ADD target/dependency/jetty-runner.jar /home/helloworld/bin/jetty-runner.jar
+#ADD target/helloworld.war /home/helloworld/bin/helloworld.war
+#ADD target/dependency/jetty-runner.jar /home/helloworld/bin/jetty-runner.jar
 
 EXPOSE 8080
 USER helloworld
