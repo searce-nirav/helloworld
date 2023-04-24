@@ -1,17 +1,11 @@
-FROM ubuntu:trusty
+FROM python:3.7-slim
 
-# from http://dockerfile.github.io/#/java
-RUN \
-  apt-get update && \
-  apt-get install -y openjdk-7-jdk && \
-  rm -rf /var/lib/apt/lists/*
+# Add requirements file in the container
+COPY requirements.txt ./requirements.txt
+RUN pip install -r requirements.txt
 
-RUN useradd --create-home helloworld
-ADD bin /home/helloworld/bin
-#ADD target/helloworld.war /home/helloworld/bin/helloworld.war
-#ADD target/dependency/jetty-runner.jar /home/helloworld/bin/jetty-runner.jar
+# Add source code in the container
+COPY main.py ./main.py
 
-EXPOSE 8080
-USER helloworld
-
-ENTRYPOINT /home/helloworld/bin/run.sh
+# Define container entry point (could also work with CMD python main.py)
+ENTRYPOINT ["python", "main.py"]

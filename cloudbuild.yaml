@@ -16,14 +16,14 @@ steps:
   - |
     if [[ "$BRANCH_NAME" == "master" ]]
     then
-      gcloud run deploy test \
+      gcloud run deploy ${PROJECT_ID}-master \
       --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
       --region us-central1 \
       --allow-unauthenticated \
       --no-cpu-throttling
     elif [[ "$BRANCH_NAME" == "test" ]]
     then
-      gcloud run deploy test \
+      gcloud run deploy ${PROJECT_ID}-test \
       --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
       --region us-central1 \
       --allow-unauthenticated
