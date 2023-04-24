@@ -2,16 +2,12 @@ steps:
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['pull', 'us-central1-docker.pkg.dev/eighth-vehicle-375706/cloud-sql-fastapi/test']
 # Build the container image
-- name: 'gcr.io/kaniko-project/executor:latest'
-  args:
-    - --cache=true
-    - --cache-ttl=6h
-    - --dockerfile=Dockerfile
-    - --destination=us-central1-docker.pkg.dev/engaged-hash-384714/test/test
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/engaged-hash-384714/test/test:$SHORT_SHA', '-t', 'us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest', '.' ]
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/engaged-hash-384714/test/test']
+  args: ['push', 'us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: /bin/sh
@@ -19,7 +15,7 @@ steps:
   - -c
   - |
     gcloud run deploy test \
-    --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test \
+    --image us-central1-docker.pkg.dev/engaged-hash-384714/test/test:latest \
     --region us-central1 \
     --allow-unauthenticated \
     - 'if [ $BRANCH_NAME == 'master' ]; then --no-cpu-throttling ; fi'
